@@ -7,117 +7,111 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---- Brand tokens: swap for media-kit values ---- */
   :root{
-    --ink:#0f1222; --text:#0f1222; --muted:#6b7086; --bg:#ffffff; --soft:#f6f6f3;
-    --line:#ecebe6; --accent:#ffd23f;
-    --airbnb:#ff5a5f; --booking:#1f4fbf; --vrbo:#2a8c82; --direct:#ffd23f; --blocked:#c9cbd6;
-    --col:46px; --row:58px; --left:112px;
+    --ink:#111111; --text:#111111; --muted:#8a8f9c; --label:#6b7385;
+    --bg:#ffffff; --line:#dde2ea; --cell-off:#f6f8fb; --pill:#eef1f6;
+    --airbnb:#ff385c; --booking:#1e3a8a; --direct:#ffd84d; --google:#4285f4;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--text);background:#e9e8e3;-webkit-font-smoothing:antialiased}
+  body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--text);background:#eceef2;-webkit-font-smoothing:antialiased}
 
   /* ---- Desktop: phone frame ---- */
   .stage{min-height:100%;display:flex;align-items:center;justify-content:center;gap:56px;padding:32px 16px}
   .side{max-width:300px}
   .side h2{font-size:28px;line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
-  .side p{color:var(--muted);line-height:1.5}
-  .phone{width:390px;height:820px;border-radius:54px;background:#111;padding:12px;box-shadow:0 40px 80px rgba(15,18,34,.25);flex:none}
-  .screen{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:var(--bg);transform:translateZ(0)}
-  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#111;border-radius:20px;z-index:60}
+  .side p{color:var(--label);line-height:1.5}
+  .phone{width:390px;height:820px;border-radius:54px;background:#fff;padding:10px;box-shadow:0 30px 70px rgba(17,17,17,.14),0 0 0 1px #e3e6ec;flex:none}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--bg);transform:translateZ(0)}
   .scroller{height:100%;overflow-y:auto;scrollbar-width:none}
   .scroller::-webkit-scrollbar{display:none}
-  .statusbar{height:46px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font-size:14px;font-weight:600;background:var(--ink);color:#fff}
+  .statusbar{height:44px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 30px 4px;font-size:14px;font-weight:600}
 
   @media (max-width:520px){
     body{background:var(--bg)}
     .stage{display:block;padding:0}
-    .side,.notch,.statusbar{display:none}
-    .phone{width:100%;height:auto;border-radius:0;padding:0;box-shadow:none;background:none}
+    .side,.statusbar{display:none}
+    .phone{width:100%;height:auto;border-radius:0;padding:0;box-shadow:none}
     .screen{border-radius:0;height:auto;overflow:visible;transform:none}
     .scroller{height:auto;overflow:visible}
   }
 
-  /* ---- App chrome ---- */
-  .trial{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--accent);padding:8px 16px;font-size:12.5px;font-weight:600}
-  .trial a{color:var(--ink);font-weight:700}
-  header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--ink);color:#fff}
-  .logo{font-weight:800;font-size:20px;letter-spacing:-.03em}
-  .logo span{color:var(--accent)}
-  .avatar{width:32px;height:32px;border-radius:50%;background:#2b3050;display:grid;place-items:center;font-size:12px;font-weight:700}
-  .icon-btn{width:32px;height:32px;display:grid;place-items:center;color:#fff}
+  .app{padding:14px 18px 120px}
 
-  .tabs{display:flex;gap:6px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none}
-  .tab{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
-  .tab.on{background:var(--ink);color:#fff}
+  /* ---- Header ---- */
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .top h1{font-size:32px;font-weight:800;letter-spacing:-.03em}
+  .top .icons{display:flex;gap:14px;align-items:center;color:var(--ink)}
 
-  .toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
-  .month{font-size:20px;font-weight:800;letter-spacing:-.02em}
-  .nav{display:flex;gap:6px}
-  .nav button{border:1px solid var(--line);background:#fff;border-radius:10px;height:32px;min-width:32px;padding:0 10px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  /* ---- Segmented control ---- */
+  .seg{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--line);border-radius:999px;padding:3px;margin-bottom:14px}
+  .seg button{border:0;background:none;font:inherit;font-size:15px;font-weight:700;padding:11px 0;border-radius:999px;cursor:pointer;color:var(--ink)}
+  .seg button.on{background:var(--ink);color:#fff}
 
-  /* ---- Multi-calendar timeline ---- */
-  .cal{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;position:relative}
-  .cal::-webkit-scrollbar{display:none}
-  .grid{display:grid;position:relative}
-  .corner,.prop{position:sticky;left:0;z-index:3;background:#fff;border-right:1px solid var(--line)}
-  .corner{z-index:4;font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:flex-end;padding:0 10px 8px}
-  .day{height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line);font-size:11px;color:var(--muted)}
-  .day b{font-size:15px;color:var(--text);font-weight:700;margin-top:2px}
-  .day.we{background:var(--soft)}
-  .day.today b{background:var(--ink);color:#fff;border-radius:8px;padding:1px 6px}
-  .prop{height:var(--row);display:flex;align-items:center;gap:8px;padding:0 10px;border-top:1px solid var(--line)}
-  .thumb{width:30px;height:30px;border-radius:8px;flex:none}
-  .prop .nm{font-size:12px;font-weight:700;line-height:1.2}
-  .prop .sub{font-size:10.5px;color:var(--muted);font-weight:500}
-  .cell{height:var(--row);border-top:1px solid var(--line);border-left:1px solid var(--line)}
-  .cell.we{background:var(--soft)}
-  .todayline{position:absolute;top:52px;bottom:0;width:2px;background:var(--ink);opacity:.15;z-index:1}
+  /* ---- Property ---- */
+  .prop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .photo{width:52px;height:52px;border-radius:12px;flex:none;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,#9fb4c9 0%,#d7c9b6 55%,#b08a5e 56%,#7a5a3a 100%)}
+  .photo::before{content:"";position:absolute;left:-6px;bottom:18px;width:40px;height:22px;background:#4b5563;clip-path:polygon(0 100%,45% 0,100% 100%)}
+  .photo::after{content:"";position:absolute;left:8px;bottom:14px;width:14px;height:10px;background:#5b3a2a;box-shadow:0 -5px 0 -2px #3a2418}
+  .prop b{display:block;font-size:16px;font-weight:700;letter-spacing:-.01em}
+  .prop span{font-size:12.5px;color:var(--muted)}
 
-  .bk{position:absolute;height:34px;border-radius:9px;color:#fff;font-size:11.5px;font-weight:600;padding:0 8px;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;z-index:2;cursor:pointer;box-shadow:0 2px 6px rgba(15,18,34,.12);transform:skewX(-12deg)}
-  .bk > *{transform:skewX(12deg)}
-  .bk .ch{width:16px;height:16px;border-radius:5px;background:rgba(255,255,255,.25);display:grid;place-items:center;font-size:9px;font-weight:800;flex:none}
-  .bk.airbnb{background:var(--airbnb)} .bk.booking{background:var(--booking)} .bk.vrbo{background:var(--vrbo)}
-  .bk.direct{background:var(--direct);color:var(--ink)} .bk.direct .ch{background:rgba(15,18,34,.12)}
-  .bk.blocked{background:repeating-linear-gradient(135deg,#e3e4ea 0 6px,#d3d5de 6px 12px);color:var(--muted);box-shadow:none}
+  /* ---- Month nav ---- */
+  .mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .mnav button{width:38px;height:38px;border:1.5px solid var(--line);background:#fff;border-radius:11px;display:grid;place-items:center;cursor:pointer}
+  .mnav .lbl{font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .mnav .lbl small{font-weight:500;color:var(--muted);font-size:15px}
 
-  .legend{display:flex;flex-wrap:wrap;gap:12px;padding:10px 16px;font-size:11.5px;color:var(--muted);font-weight:500}
-  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  /* ---- Month grid ---- */
+  .cal{border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+  .dow{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1.5px solid var(--line)}
+  .dow div{text-align:center;font-size:10.5px;font-weight:600;color:var(--label);padding:8px 0;letter-spacing:.02em}
+  .dow div+div{border-left:1.5px solid var(--line)}
+  .week{position:relative;display:grid;grid-template-columns:repeat(7,1fr);height:76px}
+  .week+.week{border-top:1.5px solid var(--line)}
+  .day{display:flex;justify-content:center;padding-top:10px;font-size:12px;font-weight:600;color:var(--label)}
+  .day+.day{border-left:1.5px solid var(--line)}
+  .day.off{background:var(--cell-off);color:transparent}
+  .day.today span{background:var(--ink);color:#fff;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;margin-top:-3px}
 
-  /* ---- Today panel ---- */
-  .section{padding:18px 16px 8px}
-  .section h3{font-size:16px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline}
-  .section h3 small{font-size:12px;color:var(--muted);font-weight:600}
-  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
-  .kpi{background:var(--soft);border-radius:14px;padding:12px}
-  .kpi b{display:block;font-size:20px;font-weight:800;letter-spacing:-.02em}
-  .kpi span{font-size:11px;color:var(--muted);font-weight:500}
-  .item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-  .item:last-child{border-bottom:0}
-  .tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;flex:none}
-  .tag.in{background:#e6f7ec;color:#137a3a} .tag.out{background:#fdecec;color:#b42318}
-  .item .who{flex:1;min-width:0}
-  .item .who b{display:block;font-size:13.5px}
-  .item .who span{font-size:12px;color:var(--muted)}
-  .item .ch-dot{width:8px;height:8px;border-radius:50%;flex:none}
-  .pad{height:110px}
+  .bk{position:absolute;bottom:10px;height:28px;background:var(--pill);border-radius:9px;box-shadow:0 1px 3px rgba(17,17,17,.12);
+      display:flex;align-items:center;gap:6px;padding:0 7px;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;cursor:pointer;z-index:2}
+  .bk .nm{overflow:hidden;text-overflow:ellipsis}
+  .badge{width:17px;height:17px;border-radius:5px;flex:none;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff}
+  .badge.airbnb{background:#fff;color:var(--airbnb);box-shadow:inset 0 0 0 1.5px var(--airbnb);border-radius:50%}
+  .badge.booking{background:var(--booking)}
+  .badge.google{background:#fff;color:var(--google);box-shadow:inset 0 0 0 1.5px #d6dae2;border-radius:50%}
+  .badge.direct{background:var(--direct);color:var(--ink)}
+
+  /* ---- Lists ---- */
+  .sec{margin-top:22px}
+  .sec h3{font-size:15px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+  .row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer}
+  .row .who{flex:1;min-width:0}
+  .row .who b{display:block;font-size:14px}
+  .row .who span{font-size:12px;color:var(--muted)}
+  .row .amt{font-weight:700;font-size:14px}
+  .chk{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);flex:none}
+  .chk.done{background:var(--ink);border-color:var(--ink);position:relative}
+  .chk.done::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .hidden{display:none}
 
   /* ---- Booking sheet ---- */
-  .sheet-bg{position:absolute;inset:0;background:rgba(15,18,34,.35);opacity:0;pointer-events:none;transition:.2s;z-index:70}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:10px 18px 28px;transform:translateY(100%);transition:.25s;z-index:71}
+  .sheet-bg{position:absolute;inset:0;background:rgba(17,17,17,.3);opacity:0;pointer-events:none;transition:.2s;z-index:70}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:10px 20px 30px;transform:translateY(100%);transition:.25s;z-index:71}
   .open .sheet-bg{opacity:1;pointer-events:auto} .open .sheet{transform:none}
-  .grab{width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 14px}
-  .sheet h4{font-size:18px;font-weight:800;margin-bottom:2px}
+  .grab{width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px}
+  .sheet h4{font-size:19px;font-weight:800;margin-bottom:2px;display:flex;align-items:center;gap:8px}
   .sheet .meta{color:var(--muted);font-size:13px;margin-bottom:14px}
-  .rows div{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
-  .rows span{color:var(--muted)}
+  .kv div{display:flex;justify-content:space-between;padding:10px 0;border-top:1.5px solid var(--line);font-size:14px}
+  .kv span{color:var(--muted)}
   @media (max-width:520px){.sheet-bg,.sheet{position:fixed}}
 
   /* ---- Hint bubble ---- */
-  .hint{position:absolute;right:18px;bottom:96px;z-index:40;background:var(--ink);color:#fff;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(15,18,34,.25);animation:pop .5s 1.2s both}
+  .hint{position:absolute;right:18px;bottom:96px;z-index:40;background:var(--ink);color:#fff;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(17,17,17,.2);animation:pop .5s 1.2s both}
   .hint::after{content:"";position:absolute;right:26px;bottom:-6px;width:12px;height:12px;background:var(--ink);transform:rotate(45deg)}
-  .hint small{display:block;font-weight:400;color:#c4c7d6}
+  .hint small{display:block;font-weight:400;color:#c9ccd4}
   @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @media (max-width:520px){.hint{position:fixed}}
 </style>
@@ -132,52 +126,58 @@
 
   <div class="phone">
     <div class="screen" id="screen">
-      <div class="notch"></div>
-
       <div class="scroller">
-        <div class="statusbar"><span>9:41</span><span>●●● 5G ▮</span></div>
+        <div class="statusbar"><span>9:41</span><span>●●● ▮</span></div>
 
-        <div class="trial"><span>Free trial · 9 days left</span><a href="#">Choose a plan →</a></div>
+        <div class="app">
+          <div class="top">
+            <h1>Calendar</h1>
+            <div class="icons">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>
+            </div>
+          </div>
 
-        <header>
-          <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
-          <div class="logo">lodgify<span>.</span></div>
-          <div class="avatar">DM</div>
-        </header>
+          <div class="seg">
+            <button class="on" data-tab="res">Reservations</button>
+            <button data-tab="tasks">Tasks</button>
+          </div>
 
-        <div class="tabs">
-          <div class="tab on">Calendar</div><div class="tab">Bookings</div><div class="tab">Inbox</div><div class="tab">Rates</div><div class="tab">Properties</div>
-        </div>
+          <div class="prop">
+            <div class="photo"></div>
+            <div><b>Mountain Cabin Andorra</b><span>Soldeu, Andorra · Sleeps 4 · 2 bed · 1 bath</span></div>
+          </div>
 
-        <div class="toolbar">
-          <div class="month" id="month"></div>
-          <div class="nav">
-            <button aria-label="Previous">‹</button>
-            <button id="todayBtn">Today</button>
-            <button aria-label="Next">›</button>
+          <div id="tab-res">
+            <div class="mnav">
+              <button aria-label="Previous month"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2"><path d="m15 6-6 6 6 6"/></svg></button>
+              <div class="lbl"><span id="month"></span> <small id="count"></small></div>
+              <button aria-label="Next month"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2"><path d="m9 6 6 6-6 6"/></svg></button>
+            </div>
+
+            <div class="cal">
+              <div class="dow"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
+              <div id="weeks"></div>
+            </div>
+
+            <div class="sec">
+              <h3>Upcoming</h3>
+              <div id="upcoming"></div>
+            </div>
+          </div>
+
+          <div id="tab-tasks" class="hidden">
+            <div class="sec" style="margin-top:6px">
+              <h3>Today</h3>
+              <div class="row"><div class="chk done"></div><div class="who"><b>Cleaning after check-out</b><span>Assigned to Marta · 11:00</span></div></div>
+              <div class="row"><div class="chk"></div><div class="who"><b>Send check-in instructions</b><span>Charlie Cooper · auto-message</span></div></div>
+              <div class="row"><div class="chk"></div><div class="who"><b>Restock firewood</b><span>Before Sophie Turner arrives</span></div></div>
+              <h3 style="margin-top:18px">This week</h3>
+              <div class="row"><div class="chk"></div><div class="who"><b>Boiler service</b><span>Thu · Technician visit</span></div></div>
+              <div class="row"><div class="chk"></div><div class="who"><b>Update winter rates</b><span>Ski season from December</span></div></div>
+            </div>
           </div>
         </div>
-
-        <div class="cal" id="cal"><div class="grid" id="grid"></div></div>
-
-        <div class="legend">
-          <span><i style="background:var(--airbnb)"></i>Airbnb</span>
-          <span><i style="background:var(--booking)"></i>Booking.com</span>
-          <span><i style="background:var(--vrbo)"></i>Vrbo</span>
-          <span><i style="background:var(--direct)"></i>Direct</span>
-          <span><i style="background:var(--blocked)"></i>Blocked</span>
-        </div>
-
-        <div class="section">
-          <h3>Today <small id="todayLabel"></small></h3>
-          <div class="kpis">
-            <div class="kpi"><b>83%</b><span>Occupancy</span></div>
-            <div class="kpi"><b>€4.2k</b><span>Revenue (mo)</span></div>
-            <div class="kpi"><b>2</b><span>Unread</span></div>
-          </div>
-          <div id="moves"></div>
-        </div>
-        <div class="pad"></div>
       </div>
 
       <div class="sheet-bg" id="sheetBg"></div>
@@ -185,7 +185,7 @@
         <div class="grab"></div>
         <h4 id="sGuest"></h4>
         <div class="meta" id="sMeta"></div>
-        <div class="rows" id="sRows"></div>
+        <div class="kv" id="sRows"></div>
       </div>
 
       <div class="hint" id="hint">Need a hand setting up?<small>Tap to talk to your AI co-host</small></div>
@@ -197,90 +197,88 @@
 
 <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 <script>
-  const DAYS = 21, START = -3; // window: 3 days ago → 17 days ahead
-  const props = [
-    {nm:'Sea View Villa', sub:'Málaga · 4 guests', c:'linear-gradient(135deg,#f6b26b,#3d5a80)'},
-    {nm:'Old Town Loft', sub:'Barcelona · 2 guests', c:'linear-gradient(135deg,#e07a5f,#81b29a)'},
-    {nm:'Olive Grove House', sub:'Sevilla · 6 guests', c:'linear-gradient(135deg,#a3b18a,#344e41)'},
-    {nm:'Harbour Studio', sub:'Valencia · 2 guests', c:'linear-gradient(135deg,#8ecae6,#023047)'},
-    {nm:'Mountain Cabin', sub:'Granada · 5 guests', c:'linear-gradient(135deg,#bc6c25,#283618)'},
-  ];
-  // [property, start offset from today, nights, channel, guest, guests, total]
+  // [check-in day, check-out day, channel, guest, guests, total] — days of the current month
   const bookings = [
-    [0,-4,5,'airbnb','Emma Schulz',3,'€980'],[0,2,4,'direct','Lucas Martin',4,'€860'],[0,8,7,'booking','Giulia Rossi',2,'€1,470'],
-    [1,-2,3,'booking','Tom Baker',2,'€390'],[1,1,2,'airbnb','Ana Costa',2,'€280'],[1,5,6,'vrbo','Pierre Dubois',2,'€810'],[1,13,3,'direct','Sofia Lind',1,'€420'],
-    [2,0,7,'direct','The Müller family',6,'€1,890'],[2,9,5,'airbnb','Jack Wilson',5,'€1,250'],
-    [3,-5,4,'airbnb','Marta Silva',2,'€360'],[3,3,3,'blocked','Maintenance',0,''],[3,7,4,'booking','Noah Jensen',2,'€440'],[3,12,5,'airbnb','Chloé Petit',2,'€560'],
-    [4,-1,4,'vrbo','Oliver Smith',4,'€720'],[4,6,3,'direct','Laura Gómez',3,'€570'],[4,11,6,'booking','Henrik Berg',5,'€1,140'],
+    [1,3,'airbnb','Noah Evans',2,'€540'],
+    [4,5,'booking','Mia Thompson',2,'€190'],
+    [5,7,'booking','Charlie Cooper',3,'€420'],
+    [9,12,'google','Sophie Turner',4,'€690'],
+    [12,14,'airbnb','Henry Bailey',2,'€380'],
+    [16,19,'direct','George Clarke',4,'€720'],
+    [20,24,'booking','Olivia Hughes',3,'€860'],
+    [26,29,'airbnb','Ethan Ward',2,'€610'],
   ];
-  const chLabel={airbnb:'Airbnb',booking:'Booking.com',vrbo:'Vrbo',direct:'Direct',blocked:'Blocked'};
-  const chShort={airbnb:'A',booking:'B',vrbo:'V',direct:'D',blocked:'–'};
+  const ch = {airbnb:['Airbnb','A'],booking:['Booking.com','B.'],google:['Google','G'],direct:['Direct (Lodgify)','L']};
+  const badge = c => `<span class="badge ${c}">${ch[c][1]}</span>`;
 
-  const today=new Date(); today.setHours(0,0,0,0);
-  const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
-  const fmt=(d,o)=>d.toLocaleDateString('en-GB',o);
-  document.getElementById('month').textContent=fmt(today,{month:'long',year:'numeric'});
-  document.getElementById('todayLabel').textContent=fmt(today,{weekday:'short',day:'numeric',month:'short'});
+  const now = new Date(), Y = now.getFullYear(), M = now.getMonth(), T = now.getDate();
+  const dim = new Date(Y, M+1, 0).getDate();
+  const lead = (new Date(Y, M, 1).getDay() + 6) % 7;          // Monday-first offset
+  const weeks = Math.ceil((lead + dim) / 7);
+  document.getElementById('month').textContent = now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  document.getElementById('count').textContent = `· ${bookings.length} bookings`;
 
-  const css=getComputedStyle(document.documentElement);
-  const COL=parseInt(css.getPropertyValue('--col')), ROW=parseInt(css.getPropertyValue('--row')), LEFT=parseInt(css.getPropertyValue('--left')), HEAD=52;
-  const grid=document.getElementById('grid');
-  grid.style.gridTemplateColumns=`${LEFT}px repeat(${DAYS},${COL}px)`;
+  const wrap = document.getElementById('weeks');
+  for (let w = 0; w < weeks; w++) {
+    const row = document.createElement('div'); row.className = 'week';
+    let h = '';
+    for (let c = 0; c < 7; c++) {
+      const d = w*7 + c - lead + 1;
+      const ok = d >= 1 && d <= dim;
+      h += `<div class="day ${ok?'':'off'} ${d===T?'today':''}"><span>${ok?d:''}</span></div>`;
+    }
+    row.innerHTML = h;
+    // booking segments in this week
+    bookings.forEach((b, i) => {
+      const [ci, co, c, name] = b;
+      const pos = d => d + lead - 1;                           // absolute cell index
+      const rs = w*7, re = w*7 + 7;
+      const s = pos(ci), e = pos(co);
+      if (e < rs || s >= re) return;
+      const from = Math.max(s, rs) - rs + (s >= rs ? 0.04 : 0);
+      const to   = e < re ? e - rs + 0.55 : 7 - 0.04;
+      if (to - from < .3) return;
+      const el = document.createElement('div');
+      el.className = 'bk';
+      el.style.left = `calc(${from/7*100}% + 2px)`;
+      el.style.width = `calc(${(to-from)/7*100}% - 4px)`;
+      el.innerHTML = `${badge(c)}<span class="nm">${name}</span>`;
+      el.onclick = () => openSheet(i);
+      row.appendChild(el);
+    });
+    wrap.appendChild(row);
+  }
 
-  let html='<div class="corner">Properties</div>';
-  for(let i=0;i<DAYS;i++){const d=addDays(today,START+i),we=[0,6].includes(d.getDay());
-    html+=`<div class="day ${we?'we':''} ${START+i===0?'today':''}">${fmt(d,{weekday:'short'}).slice(0,2)}<b>${d.getDate()}</b></div>`;}
-  props.forEach(p=>{
-    html+=`<div class="prop"><div class="thumb" style="background:${p.c}"></div><div><div class="nm">${p.nm}</div><div class="sub">${p.sub}</div></div></div>`;
-    for(let i=0;i<DAYS;i++){const we=[0,6].includes(addDays(today,START+i).getDay());html+=`<div class="cell ${we?'we':''}"></div>`;}
+  // Upcoming list
+  const fmt = d => new Date(Y, M, d).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  document.getElementById('upcoming').innerHTML = bookings
+    .map((b,i)=>[b,i]).filter(([b]) => b[1] >= T).slice(0,3)
+    .map(([b,i]) => `<div class="row" onclick="openSheet(${i})">${badge(b[2])}
+      <div class="who"><b>${b[3]}</b><span>${fmt(b[0])} – ${fmt(b[1])} · ${b[1]-b[0]} nights · ${b[4]} guests</span></div>
+      <div class="amt">${b[5]}</div></div>`).join('');
+
+  // Sheet
+  const screen = document.getElementById('screen');
+  function openSheet(i){
+    const [ci,co,c,name,g,total] = bookings[i];
+    document.getElementById('sGuest').innerHTML = `${badge(c)} ${name}`;
+    document.getElementById('sMeta').textContent = `Mountain Cabin Andorra · ${ch[c][0]}`;
+    document.getElementById('sRows').innerHTML =
+      `<div><span>Check-in</span>${fmt(ci)}, 16:00</div><div><span>Check-out</span>${fmt(co)}, 11:00</div>
+       <div><span>Nights</span>${co-ci}</div><div><span>Guests</span>${g}</div>
+       <div><span>Total</span><b>${total}</b></div><div><span>Status</span>${c==='direct'?'Deposit paid':'Confirmed'}</div>`;
+    screen.classList.add('open');
+  }
+  document.getElementById('sheetBg').onclick = () => screen.classList.remove('open');
+
+  // Tabs
+  document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+    document.getElementById('tab-res').classList.toggle('hidden', b.dataset.tab !== 'res');
+    document.getElementById('tab-tasks').classList.toggle('hidden', b.dataset.tab !== 'tasks');
   });
-  grid.innerHTML=html;
 
-  const line=document.createElement('div');line.className='todayline';line.style.left=(LEFT+(-START+.5)*COL)+'px';grid.appendChild(line);
-
-  bookings.forEach((b,idx)=>{
-    const [p,s,n,ch,guest]=b;
-    let from=s-START+.5, to=s-START+n+.5;             // check-in/out at mid-day
-    from=Math.max(from,0); to=Math.min(to,DAYS); if(to<=from) return;
-    const el=document.createElement('div');
-    el.className='bk '+ch;
-    el.style.left=(LEFT+from*COL+3)+'px';
-    el.style.width=((to-from)*COL-6)+'px';
-    el.style.top=(HEAD+p*ROW+(ROW-34)/2)+'px';
-    el.innerHTML=`<span class="ch">${chShort[ch]}</span><span>${guest}</span>`;
-    el.onclick=()=>openSheet(idx);
-    grid.appendChild(el);
-  });
-  const cal=document.getElementById('cal');
-  const toToday=()=>cal.scrollTo({left:(-START-1)*COL,behavior:'smooth'});
-  cal.scrollLeft=(-START-1)*COL;
-  document.getElementById('todayBtn').onclick=toToday;
-
-  // Today's arrivals / departures
-  const moves=[];
-  bookings.forEach(b=>{if(b[3]==='blocked')return;
-    if(b[1]===0) moves.push(['in',b]); if(b[1]+b[2]===0) moves.push(['out',b]);
-    if(b[1]===1) moves.push(['in',b,'Tomorrow']);});
-  document.getElementById('moves').innerHTML=moves.map(([t,b,when])=>
-    `<div class="item"><span class="tag ${t}">${t==='in'?'Check-in':'Check-out'}</span>
-     <div class="who"><b>${b[4]}</b><span>${props[b[0]].nm} · ${when||'Today'}</span></div>
-     <span class="ch-dot" style="background:var(--${b[3]})"></span></div>`).join('');
-
-  // Booking sheet
-  const screen=document.getElementById('screen');
-  function openSheet(i){const [p,s,n,ch,guest,g,total]=bookings[i];
-    const ci=addDays(today,s),co=addDays(today,s+n),o={day:'numeric',month:'short'};
-    document.getElementById('sGuest').textContent=guest;
-    document.getElementById('sMeta').textContent=`${props[p].nm} · ${chLabel[ch]}`;
-    document.getElementById('sRows').innerHTML= ch==='blocked'
-      ? `<div><span>Dates</span>${fmt(ci,o)} – ${fmt(co,o)}</div><div><span>Reason</span>Maintenance</div>`
-      : `<div><span>Check-in</span>${fmt(ci,o)}, 16:00</div><div><span>Check-out</span>${fmt(co,o)}, 11:00</div>
-         <div><span>Nights</span>${n}</div><div><span>Guests</span>${g}</div><div><span>Total</span><b>${total}</b></div>
-         <div><span>Status</span>${ch==='direct'?'Deposit paid':'Confirmed'}</div>`;
-    screen.classList.add('open');}
-  document.getElementById('sheetBg').onclick=()=>screen.classList.remove('open');
-
-  document.querySelector('elevenlabs-convai').addEventListener('click',()=>{const h=document.getElementById('hint');if(h)h.remove();});
+  document.querySelector('elevenlabs-convai').addEventListener('click', () => { const h = document.getElementById('hint'); if (h) h.remove(); });
 </script>
 </body>
 </html>
